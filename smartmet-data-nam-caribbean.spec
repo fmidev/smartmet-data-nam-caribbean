@@ -1,7 +1,7 @@
 %define smartmetroot /smartmet
 
 Name:           smartmet-data-nam-caribbean
-Version:        17.5.3
+Version:        17.5.4
 Release:        1%{?dist}.fmi
 Summary:        SmartMet Data NAM Caribbean
 Group:          System Environment/Base
@@ -81,6 +81,9 @@ rm -rf $RPM_BUILD_ROOT
 %{smartmetroot}/*
 
 %changelog
+* Thu May 4 2017 Mikko Rauhala <mikko.rauhala@fmi.fi> 17.5.4-1.el7.fmi
+- Fixed bugs introduced in previous version
+
 * Wed May 3 2017 Mikko Rauhala <mikko.rauhala@fmi.fi> 17.5.3-1.el7.fmi
 - Updated filenaming
 
