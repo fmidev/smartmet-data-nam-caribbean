@@ -2,7 +2,7 @@
 
 Name:           smartmet-data-nam-caribbean
 Version:        17.5.4
-Release:        1%{?dist}.fmi
+Release:        2%{?dist}.fmi
 Summary:        SmartMet Data NAM Caribbean
 Group:          System Environment/Base
 License:        MIT
@@ -81,6 +81,9 @@ rm -rf $RPM_BUILD_ROOT
 %{smartmetroot}/*
 
 %changelog
+* Thu May 4 2017 Mikko Rauhala <mikko.rauhala@fmi.fi> 17.5.4-2.el7.fmi
+- Bug fixes
+
 * Thu May 4 2017 Mikko Rauhala <mikko.rauhala@fmi.fi> 17.5.4-1.el7.fmi
 - Fixed bugs introduced in previous version
 

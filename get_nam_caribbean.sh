@@ -153,11 +153,7 @@ do
     echo "Downloading interval $l"
     for i in $(seq $l)
     do
-#        if [ -n "$DRYRUN" ]; then
-#            echo -n "$i "
-#    else
-            runBacground $i
-#        fi
+        runBacground $i
     done
     if [ -n "$DRYRUN" ]; then
     echo ""
@@ -177,10 +173,10 @@ echo "Download size $(du -hs $TMP/grb/|cut -f1) and $(ls -1 $TMP/grb/|wc -l) fil
 echo "Converting grib files to qd files..."
 gribtoqd -v -n -d -t -p "56,NAM Surface,NAM Pressure" -o $TMP/$OUTNAME.sqd $TMP/grb/
 if [ -s $TMP/$OUTNAME.sqd_levelType_1 ]; then
-mv -f $TMP/$OUTNAME.sqd_levelType_1 $TMP/${OUTNAME}_surface.sqd
+    mv -f $TMP/$OUTNAME.sqd_levelType_1 $TMP/${OUTNAME}_surface.sqd
 fi
 if [ -s $TMP/$OUTNAME.sqd_levelType_100 ]; then
-mv -f $TMP/$OUTNAME.sqd_levelType_100 $TMP/${OUTNAME}_pressure.sqd
+    mv -f $TMP/$OUTNAME.sqd_levelType_100 $TMP/${OUTNAME}_pressure.sqd
 fi
 
 #
@@ -189,7 +185,7 @@ fi
 echo -n "Calculating parameters: pressure..."
 cp -f  $TMP/${OUTNAME}_pressure.sqd $TMP/${OUTNAME}_pressure.sqd.tmp
 echo -n "surface..."
-qdscript -a 354 $CNF/nam-surface.st < $TMP/${OUTNAME}_surface.sqd > $TMP/${OUTNAME}_surface.sqd.tmp
+qdscript -a 354 $CNF/nam-caribbean-surface.st < $TMP/${OUTNAME}_surface.sqd > $TMP/${OUTNAME}_surface.sqd.tmp
 echo "done"
 
 #
