@@ -64,10 +64,10 @@ CNF=/smartmet/run/data/nam/cnf
 
 OUTNAME=${RT_DATE_HHMM}_nam_$AREA
 
-# Log everything
-#if [ ! -t 0 ]; then
-#    exec &> $LOGFILE
-#fi
+# Use log file if not run interactively
+if [ $TERM = "dumb" ]; then
+    exec &> $LOGFILE
+fi
 
 echo "Model Reference Time: $RT_ISO"
 echo "Area: $AREA left:$LEFT right:$RIGHT top:$TOP bottom:$BOTTOM"
@@ -202,7 +202,7 @@ echo "done"
 # Bzipping the output file is disabled until all countries get new SmartMet version
 # Pressure level
 if [ -s $TMP/${OUTNAME}_pressure.sqd ]; then
-    echo -n "Compressing pressure data..."
+    echo -n "Compressing data: pressure..."
     bzip2 -k $TMP/${OUTNAME}_pressure.sqd
     echo "done"
     echo -n "Copying file to SmartMet Workstation..."
