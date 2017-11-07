@@ -1,7 +1,7 @@
 %define smartmetroot /smartmet
 
 Name:           smartmet-data-nam-caribbean
-Version:        17.5.7
+Version:        17.11.6
 Release:        1%{?dist}.fmi
 Summary:        SmartMet Data NAM Caribbean
 Group:          System Environment/Base
@@ -10,8 +10,9 @@ URL:            https://github.com/fmidev/smartmet-data-nam-caribbean
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
 
-Requires:	smartmet-qdtools
-Requires:	bzip2
+%{?el6:Requires: smartmet-qdconversion}
+%{?el7:Requires: smartmet-qdtools}
+Requires:	lbzip2
 
 
 %description
@@ -81,7 +82,10 @@ rm -rf $RPM_BUILD_ROOT
 %{smartmetroot}/*
 
 %changelog
-* Sun May 7 2017 Mikko Rauhala <mikko.rauhala@fmi.fi> 17.5.7-1.el7.fmi
+* Mon Nov 6 2017 Mikko Rauhala <mikko.rauhala@fmi.fi> 17.11.6-1.%{?dist}.fmi
+- Switched to lbzip2, fix for dependencies
+
+* Sun May 7 2017 Mikko Rauhala <mikko.rauhala@fmi.fi> 17.5.7-1.%{?dist}.fmi
 - Fixed log printing when run from cron 
 
 * Thu May 4 2017 Mikko Rauhala <mikko.rauhala@fmi.fi> 17.5.4-2.el7.fmi

@@ -87,6 +87,10 @@ if [ -z "$DRYRUN" ]; then
     mkdir -p $OUT/{surface,pressure}/querydata
 fi
 
+function log {
+    echo "$(date -u +%H:%M:%S) $1"
+}
+
 function runBacground()
 {
     downloadStep $1 &
@@ -202,26 +206,32 @@ echo "done"
 # Bzipping the output file is disabled until all countries get new SmartMet version
 # Pressure level
 if [ -s $TMP/${OUTNAME}_pressure.sqd ]; then
-    echo -n "Compressing data: pressure..."
-    bzip2 -k $TMP/${OUTNAME}_pressure.sqd
-    echo "done"
-    echo -n "Copying file to SmartMet Workstation..."
-    mv -f $TMP/${OUTNAME}_pressure.sqd $OUT/pressure/querydata/${OUTNAME}_pressure.sqd
-    mv -f $TMP/${OUTNAME}_pressure.sqd.bz2 $EDITOR/
-    echo "done"
-    echo "Created file: ${OUTNAME}_pressure.sqd"
+    log "Testing ${OUTNAME}_pressure.sqd"
+    if qdstat $TMP/${OUTNAME}_pressure.sqd; then
+	log  "Compressing ${OUTNAME}_pressure.sqd"
+	lbzip2 -k $TMP/${OUTNAME}_pressure.sqd
+	log "Moving ${OUTNAME}_pressure.sqd to $OUT/pressure/querydata/"
+	mv -f $TMP/${OUTNAME}_pressure.sqd $OUT/pressure/querydata/
+	log "Moving ${OUTNAME}_pressure.sqd.bz2 to $EDITOR/"
+	mv -f $TMP/${OUTNAME}_pressure.sqd.bz2 $EDITOR/
+    else
+        log "File $TMP/${OUTNAME}_pressure.sqd is not valid qd file."
+    fi
 fi
 
 # Surface
 if [ -s $TMP/${OUTNAME}_surface.sqd ]; then
-    echo -n "Compressing surface data..."
-    bzip2 -k $TMP/${OUTNAME}_surface.sqd
-    echo "done"
-    echo -n "Copying file to SmartMet Production..."
-    mv -f $TMP/${OUTNAME}_surface.sqd $OUT/surface/querydata/${OUTNAME}_surface.sqd
-    mv -f $TMP/${OUTNAME}_surface.sqd.bz2 $EDITOR/
-    echo "done"
-    echo "Created file: ${OUTNAME}_surface.sqd"
+    log "Testing ${OUTNAME}_surface.sqd"
+    if qdstat $TMP/${OUTNAME}_surface.sqd; then
+        log "Compressing ${OUTNAME}_surface.sqd"
+	lbzip2 -k $TMP/${OUTNAME}_surface.sqd
+	log "Moving ${OUTNAME}_surface.sqd to $OUT/surface/querydata/"
+	mv -f $TMP/${OUTNAME}_surface.sqd $OUT/surface/querydata/
+	log "Moving ${OUTNAME}_surface.sqd.bz2 to $EDITOR"
+	mv -f $TMP/${OUTNAME}_surface.sqd.bz2 $EDITOR/
+    else
+        log "File $TMP/${OUTNAME}_surface.sqd is not valid qd file."
+    fi
 fi
 
 rm -f $TMP/*_nam_*
