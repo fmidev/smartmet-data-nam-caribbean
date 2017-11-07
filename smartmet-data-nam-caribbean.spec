@@ -1,7 +1,7 @@
 %define smartmetroot /smartmet
 
 Name:           smartmet-data-nam-caribbean
-Version:        17.11.6
+Version:        17.11.7
 Release:        1%{?dist}.fmi
 Summary:        SmartMet Data NAM Caribbean
 Group:          System Environment/Base
@@ -82,6 +82,9 @@ rm -rf $RPM_BUILD_ROOT
 %{smartmetroot}/*
 
 %changelog
+* Tue Nov 7 2017 Mikko Rauhala <mikko.rauhala@fmi.fi> 17.11.7-1.%{?dist}.fmi
+- Fixed grib testing to be more robust
+
 * Mon Nov 6 2017 Mikko Rauhala <mikko.rauhala@fmi.fi> 17.11.6-1.%{?dist}.fmi
 - Switched to lbzip2, fix for dependencies
 
