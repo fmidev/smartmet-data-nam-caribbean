@@ -1,7 +1,7 @@
 %define smartmetroot /smartmet
 
 Name:           smartmet-data-nam-caribbean
-Version:        17.11.7
+Version:        17.11.9
 Release:        1%{?dist}.fmi
 Summary:        SmartMet Data NAM Caribbean
 Group:          System Environment/Base
@@ -50,10 +50,10 @@ EOF
 cat > %{buildroot}%{smartmetroot}/cnf/cron/cron.hourly/clean_data_nam_caribbean <<EOF
 #!/bin/sh
 # Clean NAM Caribbean data
-cleaner -maxfiles 4 '_nam_caribbean_.*_surface.sqd' %{smartmetroot}/data/nam/caribbean
-cleaner -maxfiles 4 '_nam_caribbean_.*_pressure.sqd' %{smartmetroot}/data/nam/caribbean
-cleaner -maxfiles 4 '_nam_caribbean_.*_surface.sqd' %{smartmetroot}/editor/in
-cleaner -maxfiles 4 '_nam_caribbean_.*_pressure.sqd' %{smartmetroot}/editor/in
+cleaner -maxfiles 4 '_nam_caribbean_surface.sqd' %{smartmetroot}/data/nam/caribbean
+cleaner -maxfiles 4 '_nam_caribbean_pressure.sqd' %{smartmetroot}/data/nam/caribbean
+cleaner -maxfiles 4 '_nam_caribbean_surface.sqd' %{smartmetroot}/editor/in
+cleaner -maxfiles 4 '_nam_caribbean_pressure.sqd' %{smartmetroot}/editor/in
 EOF
 
 cat > %{buildroot}%{smartmetroot}/run/data/nam/cnf/nam-caribbean-surface.st <<EOF
@@ -82,6 +82,9 @@ rm -rf $RPM_BUILD_ROOT
 %{smartmetroot}/*
 
 %changelog
+* Thu Nov 9 2017 Mikko Rauhala <mikko.rauhala@fmi.fi> 17.11.9-1.%{?dist}.fmi
+- Fixed cleaner regular expression
+
 * Tue Nov 7 2017 Mikko Rauhala <mikko.rauhala@fmi.fi> 17.11.7-1.%{?dist}.fmi
 - Fixed grib testing to be more robust
 
