@@ -47,20 +47,16 @@ RT_DATE_HHMM=`date -u -d@$RT +%Y%m%d%H%M`
 RT_ISO=`date -u -d@$RT +%Y-%m-%dT%H:%M:%SZ`
 
 if [ -d /smartmet ]; then
-    OUT=/smartmet/data/nam/$AREA
-    CNF=/smartmet/run/data/nam/cnf
-    EDITOR=/smartmet/editor/in
-    TMP=/smartmet/tmp/data/nam_${AREA}_${RT_DATE_HHMM}
-    LOGFILE=/smartmet/logs/data/nam_${AREA}_${RT_HOUR}.log
+    BASE=/smartmet
 else
-    OUT=$HOME/data/nam/$AREA
-    CNF=/smartmet/run/data/nam/cnf
-    EDITOR=/smartmet/editor/in
-    TMP=/tmp/nam_${AREA}_${RT_DATE_HHMM}
-    LOGFILE=/smartmet/logs/data/nam_caribbean_${RT_HOUR}.log
+    BASE=$HOME/smartmet
 fi
 
-CNF=/smartmet/run/data/nam/cnf
+OUT=$BASE/data/nam/$AREA
+CNF=$BASE/run/data/nam/cnf
+EDITOR=$BASE/editor/in
+TMP=$BASE/tmp/data/nam_${AREA}_${RT_DATE_HHMM}
+LOGFILE=$BASE/logs/data/nam_${AREA}_${RT_HOUR}.log
 
 OUTNAME=${RT_DATE_HHMM}_nam_$AREA
 
@@ -105,9 +101,9 @@ function testFile()
     if [ -s $1 ]; then
     # check return value, break if successful (0)
         grib_count $1 &>/dev/null
-        if [ $? = 0 ]; then
+	if [ $? = 0 ] && [ $(grib_count $1) -gt 0 ]; then
             return 0
-    else
+	else
             rm -f $1
             return 1
         fi
@@ -129,18 +125,18 @@ function downloadStep()
     fi
 
     if $(testFile ${TMP}/grb/${FILE}); then
-        echo "Cached file: $FILE size: $(stat --printf="%s" ${TMP}/grb/${FILE}) messages: $(grib_count ${TMP}/grb/${FILE}):"
+        log "Cached file: $FILE size: $(stat --printf="%s" ${TMP}/grb/${FILE}) messages: $(grib_count ${TMP}/grb/${FILE})"
         break;
     else
 	while [ 1 ]; do
 	    ((count=count+1))
-	    echo "Downloading (try: $count) $TMP/grb/${FILE}"
+	    log "Downloading (try: $count) $TMP/grb/${FILE}"
 
 	    STARTTIME=$(date +%s)
 	    curl -s -S -o $TMP/grb/${FILE} "http://nomads.ncep.noaa.gov/cgi-bin/filter_nam_crb.pl?file=${FILE}&lev_1000_mb=on&lev_100_mb=on&lev_10_m_above_ground=on&lev_125_mb=on&lev_150_mb=on&lev_175_mb=on&lev_200_mb=on&lev_225_mb=on&lev_275_mb=on&lev_2_m_above_ground=on&lev_300_mb=on&lev_325_mb=on&lev_350_mb=on&lev_375_mb=on&lev_400_mb=on&lev_425_mb=on&lev_450_mb=on&lev_475_mb=on&lev_500_mb=on&lev_525_mb=on&lev_550_mb=on&lev_575_mb=on&lev_600_mb=on&lev_625_mb=on&lev_650_mb=on&lev_675_mb=on&lev_700_mb=on&lev_725_mb=on&lev_750_mb=on&lev_775_mb=on&lev_800_mb=on&lev_825_mb=on&lev_850_mb=on&lev_875_mb=on&lev_900_mb=on&lev_925_mb=on&lev_950_mb=on&lev_975_mb=on&lev_entire_atmosphere_%5C%28considered_as_a_single_layer%5C%29=on&lev_mean_sea_level=on&lev_surface=on&var_APCP=on&var_CAPE=on&var_CIN=on&var_HGT=on&var_ICEC=on&var_LAND=on&var_PRES=on&var_PRMSL=on&var_PWAT=on&var_RH=on&var_SNOD=on&var_SOILL=on&var_SOILW=on&var_SPFH=on&var_TCDC=on&var_TMP=on&var_UGRD=on&var_VGRD=on&var_VIS=on&var_VVEL=on&leftlon=0&rightlon=360&toplat=90&bottomlat=-90&dir=%2Fnam.${RT_DATE}"
 	    ENDTIME=$(date +%s)
             if $(testFile ${TMP}/grb/${FILE}); then
-                echo "Downloaded file: $FILE size: $(stat --printf="%s" ${TMP}/grb/${FILE}) messages: $(grib_count ${TMP}/grb/${FILE}) time: $(($ENDTIME - $STARTTIME))s wait: $((($ENDTIME - $STEPSTARTTIME) - ($ENDTIME - $STEPSTARTTIME)))s"
+                log "Downloaded file: $FILE size: $(stat --printf="%s" ${TMP}/grb/${FILE}) messages: $(grib_count ${TMP}/grb/${FILE}) time: $(($ENDTIME - $STARTTIME))s wait: $((($ENDTIME - $STEPSTARTTIME) - ($ENDTIME - $STEPSTARTTIME)))s"
                 break;
             fi
 
@@ -171,10 +167,9 @@ fi
 # Wait for the downloads to finish
 wait
 
-echo ""
-echo "Download size $(du -hs $TMP/grb/|cut -f1) and $(ls -1 $TMP/grb/|wc -l) files."
+log "Download size $(du -hs $TMP/grb/|cut -f1) and $(ls -1 $TMP/grb/|wc -l) files."
 
-echo "Converting grib files to qd files..."
+log "Converting grib files to qd files..."
 gribtoqd -v -n -d -t -p "56,NAM Surface,NAM Pressure" -o $TMP/$OUTNAME.sqd $TMP/grb/
 if [ -s $TMP/$OUTNAME.sqd_levelType_1 ]; then
     mv -f $TMP/$OUTNAME.sqd_levelType_1 $TMP/${OUTNAME}_surface.sqd
