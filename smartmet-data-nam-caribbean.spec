@@ -1,7 +1,7 @@
 %define smartmetroot /smartmet
 
 Name:           smartmet-data-nam-caribbean
-Version:        17.11.9
+Version:        17.12.7
 Release:        1%{?dist}.fmi
 Summary:        SmartMet Data NAM Caribbean
 Group:          System Environment/Base
@@ -64,6 +64,7 @@ EOF
 
 cat > %{buildroot}%{smartmetroot}/cnf/data/nam-caribbean.cnf <<EOF
 INTERVALS=("0 3 83")
+#GRIB_COPY_DEST=
 EOF
 
 
@@ -82,6 +83,9 @@ rm -rf $RPM_BUILD_ROOT
 %{smartmetroot}/*
 
 %changelog
+* Thu Dec 7 2017 Mikko Rauhala <mikko.rauhala@fmi.fi> 17.12.7-1.%{?dist}.fmi
+- rsync grib files to configured destination
+
 * Thu Nov 9 2017 Mikko Rauhala <mikko.rauhala@fmi.fi> 17.11.9-1.%{?dist}.fmi
 - Fixed cleaner regular expression
 

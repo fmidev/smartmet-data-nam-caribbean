@@ -137,6 +137,9 @@ function downloadStep()
 	    ENDTIME=$(date +%s)
             if $(testFile ${TMP}/grb/${FILE}); then
                 log "Downloaded file: $FILE size: $(stat --printf="%s" ${TMP}/grb/${FILE}) messages: $(grib_count ${TMP}/grb/${FILE}) time: $(($ENDTIME - $STARTTIME))s wait: $((($ENDTIME - $STEPSTARTTIME) - ($ENDTIME - $STEPSTARTTIME)))s"
+                if [ -n "$GRIB_COPY_DEST" ]; then
+                    rsync -a --relative /nam/$RT_DATE_HH/ ${TMP}/grb/${FILE} $GRIB_COPY_DEST
+                fi
                 break;
             fi
 
