@@ -1,7 +1,7 @@
 %define smartmetroot /smartmet
 
 Name:           smartmet-data-nam-caribbean
-Version:        17.12.7
+Version:        19.2.18
 Release:        1%{?dist}.fmi
 Summary:        SmartMet Data NAM Caribbean
 Group:          System Environment/Base
@@ -83,6 +83,9 @@ rm -rf $RPM_BUILD_ROOT
 %{smartmetroot}/*
 
 %changelog
+* Mon Feb 18 2019 Mikko Rauhala <mikko.rauhala@fmi.fi> 19.2.18-1.%{?dist}.fmi
+- Fixed url from http to https
+
 * Thu Dec 7 2017 Mikko Rauhala <mikko.rauhala@fmi.fi> 17.12.7-1.%{?dist}.fmi
 - rsync grib files to configured destination
 
