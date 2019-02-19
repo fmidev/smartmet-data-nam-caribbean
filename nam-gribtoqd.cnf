@@ -58,6 +58,9 @@
 # 47: Precipitable Water [kg m**-2]
 3054;47;Precipitable Water (pwat);0;1;200;0
 
+# 50: Total Precipitation [kg m**-2]
+228228;50;Total Precipitation (tp);0;1
+
 # 51: Snow Depth [m]
 3066;51;Snow Depth (sde);0;1
 
