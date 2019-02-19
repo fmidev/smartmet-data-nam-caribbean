@@ -2,7 +2,7 @@
 
 Name:           smartmet-data-nam-caribbean
 Version:        19.2.18
-Release:        1%{?dist}.fmi
+Release:        2%{?dist}.fmi
 Summary:        SmartMet Data NAM Caribbean
 Group:          System Environment/Base
 License:        MIT
@@ -12,8 +12,10 @@ BuildArch:	noarch
 
 %{?el6:Requires: smartmet-qdconversion}
 %{?el7:Requires: smartmet-qdtools}
+Requires:       curl
+Requires:       eccodes
 Requires:	lbzip2
-
+Requires:       rsync
 
 %description
 SmartMet data ingest module for NAM model Caribbean region.
@@ -63,12 +65,13 @@ PAR354 = PAR50 - prev3
 EOF
 
 cat > %{buildroot}%{smartmetroot}/cnf/data/nam-caribbean.cnf <<EOF
-INTERVALS=("0 3 83")
+INTERVALS=("0 3 84")
 #GRIB_COPY_DEST=
 EOF
 
 
 install -m 755 %{_sourcedir}/smartmet-data-nam-caribbean/get_nam_caribbean.sh %{buildroot}%{smartmetroot}/run/data/nam/bin/
+install -m 644 %_topdir/SOURCES/smartmet-data-nam-caribbean/nam-gribtoqd.cnf %{buildroot}%{smartmetroot}/run/data/nam/cnf/
 
 %post
 
@@ -83,6 +86,9 @@ rm -rf $RPM_BUILD_ROOT
 %{smartmetroot}/*
 
 %changelog
+* Mon Feb 18 2019 Mikko Rauhala <mikko.rauhala@fmi.fi> 19.2.18-2.%{?dist}.fmi
+- Surface and pressure converted separately, new local conversion table
+
 * Mon Feb 18 2019 Mikko Rauhala <mikko.rauhala@fmi.fi> 19.2.18-1.%{?dist}.fmi
 - Fixed url from http to https
 

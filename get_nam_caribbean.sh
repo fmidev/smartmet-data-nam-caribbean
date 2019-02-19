@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Finnish Meteorological Institute / Mikko Rauhala (2014-2017)
+# Finnish Meteorological Institute / Mikko Rauhala (2014-2019)
 #
 # SmartMet Data Ingestion Module for NAM Caribbean Model
 #
@@ -81,6 +81,7 @@ echo "Output pressure level file: ${OUTNAME}_pressure.sqd"
 if [ -z "$DRYRUN" ]; then
     mkdir -p $TMP/grb
     mkdir -p $OUT/{surface,pressure}/querydata
+    mkdir -p $EDITOR
 fi
 
 function log {
@@ -172,23 +173,17 @@ wait
 
 log "Download size $(du -hs $TMP/grb/|cut -f1) and $(ls -1 $TMP/grb/|wc -l) files."
 
-log "Converting grib files to qd files..."
-gribtoqd -v -n -d -t -p "56,NAM Surface,NAM Pressure" -o $TMP/$OUTNAME.sqd $TMP/grb/
-if [ -s $TMP/$OUTNAME.sqd_levelType_1 ]; then
-    mv -f $TMP/$OUTNAME.sqd_levelType_1 $TMP/${OUTNAME}_surface.sqd
-fi
-if [ -s $TMP/$OUTNAME.sqd_levelType_100 ]; then
-    mv -f $TMP/$OUTNAME.sqd_levelType_100 $TMP/${OUTNAME}_pressure.sqd
-fi
+log "Converting surface grib files to qd files..."
+gribtoqd -d -t -L 1 -p "56,NAM Surface" -c $CNF/nam-gribtoqd.cnf -o $TMP/${OUTNAME}_surface.sqd $TMP/grb/
+gribtoqd -d -t -L 100 -p "56,NAM Surface" -c $CNF/nam-gribtoqd.cnf -o $TMP/${OUTNAME}_pressure.sqd $TMP/grb/
 
 #
 # Post process some parameters 
 #
-echo -n "Calculating parameters: pressure..."
+log "Post processing ${OUTNAME}_pressure.sqd"
 cp -f  $TMP/${OUTNAME}_pressure.sqd $TMP/${OUTNAME}_pressure.sqd.tmp
-echo -n "surface..."
+log "Post processing ${OUTNAME}_surface.sqd"
 qdscript -a 354 $CNF/nam-caribbean-surface.st < $TMP/${OUTNAME}_surface.sqd > $TMP/${OUTNAME}_surface.sqd.tmp
-echo "done"
 
 #
 # Create querydata totalWind and WeatherAndCloudiness objects
