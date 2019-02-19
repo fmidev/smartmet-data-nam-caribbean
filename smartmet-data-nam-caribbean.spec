@@ -1,8 +1,8 @@
 %define smartmetroot /smartmet
 
 Name:           smartmet-data-nam-caribbean
-Version:        19.2.18
-Release:        3%{?dist}.fmi
+Version:        19.2.19
+Release:        1%{?dist}.fmi
 Summary:        SmartMet Data NAM Caribbean
 Group:          System Environment/Base
 License:        MIT
@@ -86,6 +86,9 @@ rm -rf $RPM_BUILD_ROOT
 %{smartmetroot}/*
 
 %changelog
+* Tue Feb 19 2019 Mikko Rauhala <mikko.rauhala@fmi.fi> 19.2.19-1.%{?dist}.fmi
+- Fixed nam-gribtoqd.cnf file
+
 * Mon Feb 18 2019 Mikko Rauhala <mikko.rauhala@fmi.fi> 19.2.18-3.%{?dist}.fmi
 - Fixed rsync command
 
