@@ -25,20 +25,17 @@
 # 4: Temperature [K]
 130;4;Temperature (t);-273.15;1
 
-# 10: 2 Metre Dewpoint Temperature [K]
-168;10;2 Metre Dewpoint Temperature (2d);-273.15;1;105;2
+# 10: Dew Point Temperature [K]
+3017;10;Dew Point Temperature (dpt);-273.15;1
 
 # 12: Specific Humidity [kg kg**-1]
-133;12;Specific Humidity (q);0;1;105;2
+133;12;Specific Humidity (q);0;1
 
 # 13: 2 Metre Relative Humidity [%]
 260242;13;2 Metre Relative Humidity (2r);0;1;105;2
 
 # 13: Relative Humidity [%]
 157;13;Relative Humidity (r);0;1
-
-# 13: Relative Humidity [%]
-157;13;Relative Humidity (r);0;1;200;0
 
 # 17: Orography [m]
 228002;17;Orography (orog);0;1
@@ -76,9 +73,6 @@
 # 140: Vertical Velocity [Pa s**-1]
 135;140;Vertical Velocity (w);0;1
 
-# 257: Potential Evaporation Rate [W m**-2]
-260037;257;Potential Evaporation Rate (pevpr);0;1
-
 # 273: Low Cloud Cover [%]
 228164;273;Low Cloud Cover (lcc);0;1;214;0
 
@@ -91,14 +85,8 @@
 # 281: Land-sea Mask [(0 - 1)]
 172;281;Land-sea Mask (lsm);0;1
 
-# 322: Sensible Heat Net Flux [W m**-2]
-260003;322;Sensible Heat Net Flux (shtfl);0;1
-
-# 353: Precipitation Rate [kg m**-2 s**-1]
-3059;354;Precipitation Rate (prate);0;10800
-
-# 417: Wind Speed (gust) [m s**-1]
-260065;417;Wind Speed (gust) (gust);0;1
+# 407: Visibility [m]
+3020;407;Visibility (vis);0;1
 
 # 472: Surface Pressure [Pa]
 134;472;Surface Pressure (sp);0;0.01
@@ -106,3 +94,5 @@
 # 532: Sea Ice Area Fraction [(0 - 1)]
 31;532;Sea Ice Area Fraction (ci);0;1
 
+# 532: Sea Ice Area Fraction [(0 - 1)]
+31;532;Sea Ice Area Fraction (ci);0;1
