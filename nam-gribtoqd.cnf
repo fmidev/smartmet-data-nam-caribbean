@@ -1,0 +1,105 @@
+#
+# Grib to QD Conversion Tables for Centre KWBC
+#
+#
+# ECMWF Parameter Database
+# http://apps.ecmwf.int/codes/grib/param-db
+#
+# List of available SmartMetIDs
+# qdinfo -l
+
+# GribID;SmartMetID;Name;Base;Scale;LevelType;LevelValue;InterpolationMethod
+
+# 1: Pressure Reduced To MSL [Pa]
+260074;1;Pressure Reduced To MSL (prmsl);0;0.01;102;0
+
+# 2: Geopotential Height [gpm]
+156;2;Geopotential Height (gh);0;1
+
+# 4: 2 Metre Temperature [K]
+167;4;2 Metre Temperature (2t);-273.15;1;105;2
+
+# 4: Temperature 0m [K]
+130;288;Temperature 0m (t);-273.15;1;1;0
+
+# 4: Temperature [K]
+130;4;Temperature (t);-273.15;1
+
+# 10: 2 Metre Dewpoint Temperature [K]
+168;10;2 Metre Dewpoint Temperature (2d);-273.15;1;105;2
+
+# 12: Specific Humidity [kg kg**-1]
+133;12;Specific Humidity (q);0;1;105;2
+
+# 13: 2 Metre Relative Humidity [%]
+260242;13;2 Metre Relative Humidity (2r);0;1;105;2
+
+# 13: Relative Humidity [%]
+157;13;Relative Humidity (r);0;1
+
+# 13: Relative Humidity [%]
+157;13;Relative Humidity (r);0;1;200;0
+
+# 17: Orography [m]
+228002;17;Orography (orog);0;1
+
+# 23: 10 Metre U Wind Component [m s**-1]
+165;23;10 Metre U Wind Component (10u);0;1;105;10
+
+# 23: U Component Of Wind [m s**-1]
+131;23;U Component Of Wind (u);0;1
+
+# 24: 10 Metre V Wind Component [m s**-1]
+166;24;10 Metre V Wind Component (10v);0;1;105;10
+
+# 24: V Component Of Wind [m s**-1]
+132;24;V Component Of Wind (v);0;1
+
+# 47: Precipitable Water [kg m**-2]
+3054;47;Precipitable Water (pwat);0;1;200;0
+
+# 51: Snow Depth [m]
+3066;51;Snow Depth (sde);0;1
+
+# 59: Convective Available Potential Energy [J kg**-1]
+59;59;Convective Available Potential Energy (cape);0;1
+
+# 66: Convective Inhibition [J kg**-1]
+228001;66;Convective Inhibition (cin);0;1
+
+# 79: Total Cloud Cover [%]
+228164;79;Total Cloud Cover (tcc);0;1;200;0
+
+# 140: Vertical Velocity [Pa s**-1]
+135;140;Vertical Velocity (w);0;1
+
+# 257: Potential Evaporation Rate [W m**-2]
+260037;257;Potential Evaporation Rate (pevpr);0;1
+
+# 273: Low Cloud Cover [%]
+228164;273;Low Cloud Cover (lcc);0;1;214;0
+
+# 274: Medium Cloud Cover [%]
+228164;274;Medium Cloud Cover (mcc);0;1;224;0
+
+# 275: High Cloud Cover [%]
+228164;275;High Cloud Cover (hcc);0;1;234;0
+
+# 281: Land-sea Mask [(0 - 1)]
+172;281;Land-sea Mask (lsm);0;1
+
+# 322: Sensible Heat Net Flux [W m**-2]
+260003;322;Sensible Heat Net Flux (shtfl);0;1
+
+# 353: Precipitation Rate [kg m**-2 s**-1]
+3059;354;Precipitation Rate (prate);0;10800
+
+# 417: Wind Speed (gust) [m s**-1]
+260065;417;Wind Speed (gust) (gust);0;1
+
+# 472: Surface Pressure [Pa]
+134;472;Surface Pressure (sp);0;0.01
+
+# 532: Sea Ice Area Fraction [(0 - 1)]
+31;532;Sea Ice Area Fraction (ci);0;1
+
