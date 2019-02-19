@@ -139,7 +139,7 @@ function downloadStep()
             if $(testFile ${TMP}/grb/${FILE}); then
                 log "Downloaded file: $FILE size: $(stat --printf="%s" ${TMP}/grb/${FILE}) messages: $(grib_count ${TMP}/grb/${FILE}) time: $(($ENDTIME - $STARTTIME))s wait: $((($ENDTIME - $STEPSTARTTIME) - ($ENDTIME - $STEPSTARTTIME)))s"
                 if [ -n "$GRIB_COPY_DEST" ]; then
-                    rsync -a --relative /nam/$RT_DATE_HH/ ${TMP}/grb/${FILE} $GRIB_COPY_DEST
+                    rsync -ra  ${TMP}/grb/${FILE} $GRIB_COPY_DEST/$RT_DATE_HH/
                 fi
                 break;
             fi
@@ -170,6 +170,11 @@ fi
 
 # Wait for the downloads to finish
 wait
+
+if [ -n "$GRIB_COPY_DEST" ]; then
+    ls -1 $TMP/grb/ > $TMP/${RT_DATE_HH}.txt
+    rsync -a $TMP/${RT_DATE_HH}.txt $GRIB_COPY_DEST/
+fi
 
 log "Download size $(du -hs $TMP/grb/|cut -f1) and $(ls -1 $TMP/grb/|wc -l) files."
 
