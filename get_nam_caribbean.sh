@@ -180,7 +180,7 @@ log "Download size $(du -hs $TMP/grb/|cut -f1) and $(ls -1 $TMP/grb/|wc -l) file
 
 log "Converting surface grib files to qd files..."
 gribtoqd -d -t -L 1 -p "56,NAM Surface" -c $CNF/nam-gribtoqd.cnf -o $TMP/${OUTNAME}_surface.sqd $TMP/grb/
-gribtoqd -d -t -L 100 -p "56,NAM Surface" -c $CNF/nam-gribtoqd.cnf -o $TMP/${OUTNAME}_pressure.sqd $TMP/grb/
+gribtoqd -d -t -L 100 -p "56,NAM Pressure" -c $CNF/nam-gribtoqd.cnf -o $TMP/${OUTNAME}_pressure.sqd $TMP/grb/
 
 #
 # Post process some parameters 
